@@ -63,6 +63,7 @@ from doit.cmdparse import CmdParse
 from nikola.packages.pygments_better_html import BetterHtmlFormatter
 from typing import List
 from unidecode import unidecode
+from unicodedata import normalize
 
 # Renames
 from nikola import DEBUG  # NOQA
@@ -848,7 +849,7 @@ def slugify(value, lang=None, force=False):
     if USE_SLUGIFY or force:
         # This is the standard state of slugify, which actually does some work.
         # It is the preferred style, especially for Western languages.
-        value = str(unidecode(value))
+        value = normalize('NFKC', value) if force < 0 or USE_SLUGIFY < 0 else str(unidecode(value))
         value = _slugify_strip_re.sub('', value).strip().lower()
         return _slugify_hyphenate_re.sub('-', value)
     else:
@@ -1542,7 +1543,7 @@ def bool_from_meta(meta, key, fallback=False, blank=None):
         elif not value_lowercase:
             return blank
     elif isinstance(value, int):
-        return bool(value)
+        return value if value < 0 else bool(value)
     elif value is None:
         return blank
     return fallback
