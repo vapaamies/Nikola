@@ -433,7 +433,7 @@ class Post(object):
 
         if meta_value is None:
             # use PRETTY_URLS, unless the slug is 'index'
-            return self.pretty_urls and self.meta[lang]['slug'] != 'index'
+            return self.pretty_urls if self.meta[lang]['slug'] != 'index' else False
         else:
             # override with meta value
             return meta_value
@@ -1035,7 +1035,7 @@ class Post(object):
         if lang is None:
             lang = nikola.utils.LocaleBorg().current_lang
         folder = self.folders[lang]
-        if self.has_pretty_url(lang):
+        if self.has_pretty_url(lang) > 0:
             path = os.path.join(self.translations[lang],
                                 folder, self.meta[lang]['slug'], 'index' + extension)
         else:
@@ -1058,7 +1058,10 @@ class Post(object):
 
         pieces = self.translations[lang].split(os.sep)
         pieces += self.folders[lang].split(os.sep)
-        if self.has_pretty_url(lang):
+        has_pretty_url = self.has_pretty_url(lang)
+        if has_pretty_url < 0:
+            pieces += [self.meta[lang]['slug']]
+        elif has_pretty_url:
             pieces += [self.meta[lang]['slug'], 'index' + extension]
         else:
             pieces += [self.meta[lang]['slug'] + extension]
