@@ -178,6 +178,7 @@ class Post(object):
         self.translations = self.config['TRANSLATIONS']
         self.skip_untranslated = not self.config['SHOW_UNTRANSLATED_POSTS']
         self._default_preview_image = self.config['DEFAULT_PREVIEW_IMAGE']
+        self.tags_from_path = self.config['TAGS_FROM_PATH']
         self.types_to_hide_title = self.config['TYPES_TO_HIDE_TITLE']
 
     def _set_tags(self):
@@ -188,6 +189,8 @@ class Post(object):
                 _tag_list = self.meta[lang]['tags']
             else:
                 _tag_list = self.meta[lang]['tags'].split(',')
+            if self.tags_from_path:
+                _tag_list += self.source_path.replace('\\', '/').split('/')[1:-1]
             self._tags[lang] = natsort.natsorted(
                 list(set([x.strip() for x in _tag_list])),
                 alg=natsort.ns.F | natsort.ns.IC)

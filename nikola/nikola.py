@@ -592,6 +592,7 @@ class Nikola(object):
             'TAG_TITLES': {},
             'TAG_TRANSLATIONS': [],
             'TAG_TRANSLATIONS_ADD_DEFAULTS': False,
+            'TAGS_FROM_PATH': False,
             'TAGS_INDEX_PATH': '',
             'TAGLIST_MINIMUM_POSTS': 1,
             'TEMPLATE_FILTERS': {},
