@@ -42,12 +42,12 @@
 
 <%def name="open_graph_metadata(post)">
 <meta property="og:site_name" content="${blog_title|h}">
-<meta property="og:title" content="${post.title()[:70]|h}">
+<meta property="og:title" content="${post.title()[:69]|h}…">
 <meta property="og:url" content="${abs_link(permalink)}">
 %if post.description():
-    <meta property="og:description" content="${post.description()[:200]|h}">
+    <meta property="og:description" content="${post.description()[:199]|h}…">
 %else:
-    <meta property="og:description" content="${post.text(strip_html=True)[:200]|h}">
+    <meta property="og:description" content="${post.text(strip_html=True)[:199]|h}…">
 %endif
 %if post.previewimage:
     <meta property="og:image" content="${url_replacer(permalink, post.previewimage, lang, 'absolute')}">
