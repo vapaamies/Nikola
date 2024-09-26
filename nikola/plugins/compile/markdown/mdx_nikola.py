@@ -27,6 +27,7 @@
 """Markdown Extension for Nikola.
 
 - Specific post-processing.
+- Dfn inline patterns.
 - Strikethrough inline patterns.
 """
 
@@ -45,6 +46,7 @@ except ImportError:
 
 
 CODERE = re.compile('<div class="codehilite"><pre>(.*?)</pre></div>', flags=re.MULTILINE | re.DOTALL)
+DFN_RE = r"(!{2})(.+?)(!{2})"  # !!dfn!!
 STRIKE_RE = r"(~{2})(.+?)(~{2})"  # ~~strike~~
 
 
@@ -70,6 +72,11 @@ class NikolaExtension(MarkdownExtension, Extension):
         pp = NikolaPostProcessor()
         md.postprocessors.register(pp, 'nikola_post_processor', 1)
 
+    def _add_dfn_inline_pattern(self, md):
+        """Support non-standard UniWiki-style dfn tag, for example: ``!!dfn!!``."""
+        pattern = SimpleTagPattern(DFN_RE, 'dfn')
+        md.inlinePatterns.register(pattern, 'dfn', 150)
+
     def _add_strikethrough_inline_pattern(self, md):
         """Support PHP-Markdown style strikethrough, for example: ``~~strike~~``."""
         pattern = SimpleTagPattern(STRIKE_RE, 'del')
@@ -78,6 +85,7 @@ class NikolaExtension(MarkdownExtension, Extension):
     def extendMarkdown(self, md, md_globals=None):
         """Extend markdown to Nikola flavours."""
         self._add_nikola_post_processor(md)
+        self._add_dfn_inline_pattern(md)
         self._add_strikethrough_inline_pattern(md)
         md.registerExtension(self)
 
