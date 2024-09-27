@@ -51,7 +51,8 @@ class RobotsFile(LateTask):
         }
 
         sitemapindex_url = urljoin(kw["base_url"], "sitemapindex.xml")
-        robots_path = os.path.join(kw['output_folder'], "robots.txt")
+        robots_txt = "robots.txt"
+        robots_path = os.path.join(kw['output_folder'], robots_txt)
 
         def write_robots():
             if kw["site_url"] != urljoin(kw["site_url"], "/"):
@@ -59,6 +60,12 @@ class RobotsFile(LateTask):
                 utils.LOGGER.info('Add "robots" to DISABLED_PLUGINS to disable this warning and robots.txt generation.')
 
             with io.open(robots_path, 'w+', encoding='utf8') as outf:
+                if os.path.isfile(robots_txt):
+                    with io.open(robots_txt, 'r') as t:
+                        tmpl = t.read()
+                    for line in tmpl.splitlines():
+                        outf.write(line + "\n")
+                    outf.write("\n")
                 outf.write("Sitemap: {0}\n\n".format(sitemapindex_url))
                 outf.write("User-Agent: *\n")
                 if kw["robots_exclusions"]:
