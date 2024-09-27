@@ -64,7 +64,6 @@ class RobotsFile(LateTask):
                 if kw["robots_exclusions"]:
                     for loc in kw["robots_exclusions"]:
                         outf.write("Disallow: {0}\n".format(utils.encodelink(loc)))
-                outf.write("Host: {0}\n".format(urlparse(kw["base_url"]).netloc))
 
         yield self.group_task()
 
