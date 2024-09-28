@@ -268,7 +268,7 @@ def minify_lines(data):
 
 def _run_typogrify(data, typogrify_filters, ignore_tags=None):
     """Run typogrify with ignore support."""
-    default_ignore_tags = ["title", ".math"]
+    default_ignore_tags = [".math"]
     if ignore_tags is None:
         ignore_tags = default_ignore_tags
     else:
