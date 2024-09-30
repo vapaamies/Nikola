@@ -1807,10 +1807,10 @@ def create_redirect(src, dst):
     makedirs(os.path.dirname(src))
     with io.open(src, "w+", encoding="utf8") as fd:
         fd.write('<!DOCTYPE html>\n<head>\n<meta charset="utf-8">\n'
-                 '<title>Redirecting...</title>\n<meta name="robots" '
+                 '<title>Перенаправление…</title>\n<meta name="robots" '
                  'content="noindex">\n<meta http-equiv="refresh" content="0; '
-                 'url={0}">\n</head>\n<body>\n<p>Page moved '
-                 '<a href="{0}">here</a>.</p>\n</body>'.format(dst))
+                 'url={0}">\n</head>\n<body>\n<p>Страница '
+                 '<a href="{0}">перемещена</a>.</p>\n</body>'.format(dst))
 
 
 def colorize_str_from_base_color(string, base_color):
